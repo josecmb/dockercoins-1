@@ -33,7 +33,7 @@ FINAL
 python ./rng/rng.py &
 
 # Instrucciones para desplegar el worker
-pip install redis request
+pip install redis requests
 
 python ./worker/worker.py &
 
