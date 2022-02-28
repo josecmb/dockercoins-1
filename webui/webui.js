@@ -26,7 +26,7 @@ app.get('/json', function (req, res) {
 
 app.use(express.static('files'));
 
-var server = app.listen(8083, function () {
-    console.log('WEBUI running on port 8083');
+var server = app.listen(8080, function () {
+    console.log('WEBUI running on port 8080');
 });
 
