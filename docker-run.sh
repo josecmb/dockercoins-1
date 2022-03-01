@@ -17,3 +17,8 @@ docker run -d --rm --name rng --network rng --entrypoint python -u nobody -v $PW
 docker ps
 docker logs rng
 docker top rng
+docker build -t node:express-redis ./webui/
+docker run -d -p 8080:8080 --rm --name webui --network redis --entrypoint node -u nobody -v $PWD/webui/files/:/files/ -v $PWD/webui/webui.js:/webui.js node:express-redis webui.js
+   59  docker ps
+   60  docker logs webui
+   61  docker top webui
