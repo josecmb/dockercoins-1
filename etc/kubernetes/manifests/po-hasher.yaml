@@ -15,6 +15,12 @@ spec:
         -
           name: TOKEN
           value: hola que tal
+        -
+          name: HASHER_RB
+          valueFrom:
+            secretKeyRef: 
+              key: hasher.rb
+              name: secret-hasher
       image: eleigle/ruby:sinatra-thin
       name: container-po-hasher
       ports:
