@@ -12,3 +12,8 @@
    31  docker ps
    32  docker logs redis
    33  docker top redis
+   docker build -t python:Flask ./rng/
+docker run -d --rm --name rng --network rng --entrypoint python -u nobody -v $PWD/rng/rng.py:/rng.py python:Flask rng.py
+   41  docker ps
+   docker logs rng
+   44  docker top rng
