@@ -8,3 +8,7 @@
    26  docker ps
    27  docker logs hasher
    28  docker top hasher
+   docker run -d --rm --name redis --network redis --entrypoint docker-entrypoint.sh -u redis -v redis-data:/data/ redis:latest redis-server
+   31  docker ps
+   32  docker logs redis
+   33  docker top redis
