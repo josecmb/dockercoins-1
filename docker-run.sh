@@ -19,6 +19,13 @@ docker logs rng
 docker top rng
 docker build -t node:express-redis ./webui/
 docker run -d -p 8080:8080 --rm --name webui --network redis --entrypoint node -u nobody -v $PWD/webui/files/:/files/ -v $PWD/webui/webui.js:/webui.js node:express-redis webui.js
-   59  docker ps
-   60  docker logs webui
-   61  docker top webui
+docker ps
+docker logs webui
+docker top webui
+docker build -t python:Redis-requests ./worker/
+docker run -d --rm --name worker --network hasher --entrypoint python -u nobody -v $PWD/worker/worker.py:/worker.py python:Redis-requests worker.py
+docker network connect redis worker
+docker network connect rng worker
+docker ps
+docker logs worker
+docker top worker
