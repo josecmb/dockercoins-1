@@ -1,2 +1,2 @@
-FROM node:latest
+FROM node:4-slim
 RUN npm install express
