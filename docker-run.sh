@@ -1,5 +1,5 @@
-git clone https://github.com/ele-igle/dockercoins-1.git
-cd dockercoins-1/
+#git clone https://github.com/ele-igle/dockercoins-1.git
+#cd dockercoins-1/
 docker network create hasher
 docker network create redis
 docker network create rng
