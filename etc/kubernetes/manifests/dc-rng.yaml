@@ -45,5 +45,5 @@ spec:
               -
                 key: rng.rb
                 mode: 0400
-                path: rng.rb
+                path: rng.py
             secretName: secret-rng
