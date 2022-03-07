@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: secret-hasher-demo
+  name: secret-hasher
 stringData:
   hasher.rb: |
     require 'digest'
@@ -21,7 +21,7 @@ stringData:
     get '/' do
         "HASHER running on #{Socket.gethostname}\n"
     end
-type: opaque
+type: Opaque
 
 
 
