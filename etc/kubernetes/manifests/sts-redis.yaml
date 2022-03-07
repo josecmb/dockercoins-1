@@ -5,7 +5,8 @@ metadata:
 spec: 
   replicas: 1
   selector: 
-    dockercoins: redis
+    matchLabels:
+      dockercoins: redis
   serviceName: redis
   template:
     metadata:
@@ -40,10 +41,10 @@ spec:
         spec:
           accessMode:
             - ReadWriteOnce
-           resources:
+          resources:
             requests:
               storage: 1Gi
-            volumenMode: Filesystem
+          volumenMode: Filesystem
       
     
   
