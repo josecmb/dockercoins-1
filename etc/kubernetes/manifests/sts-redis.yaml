@@ -32,19 +32,20 @@ spec:
           volumeMounts:
             -
               mountPath: /data/
-              name: pvc-redis
+              name: pvc-redis-2
               readOnly: false
           workingDir: /data/      
     volumenClaimsTemplate:
       - metadata:
-          name: pvc-redis
+          name: pvc-redis-2
         spec:
           accessMode:
             - ReadWriteOnce
           resources:
             requests:
               storage: 1Gi
-          volumenMode: Filesystem
+          
+          
       
     
   
