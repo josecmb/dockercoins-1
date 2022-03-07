@@ -23,7 +23,7 @@ spec:
             -
               name: TOKEN
               value: hola que tal          
-          image: eleigle/python:Redis
+          image: eleigle/python:Redis-requests
           name: container-po-worker         
           volumeMounts:
             -
