@@ -43,7 +43,7 @@ spec:
             defaultMode: 0400
             items:
               -
-                key: rng.rb
+                key: rng.py
                 mode: 0400
                 path: rng.py
             secretName: secret-rng
