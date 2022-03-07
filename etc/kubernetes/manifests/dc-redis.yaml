@@ -31,7 +31,7 @@ spec:
             -
               mountPath: /data/
               name: volume-po-redis
-              readOnly: fasle
+              readOnly: false
           workingDir: /data/
       volumes:
         -
