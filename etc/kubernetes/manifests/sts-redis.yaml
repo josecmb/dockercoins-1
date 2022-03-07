@@ -32,7 +32,7 @@ spec:
           volumeMounts:
             -
               mountPath: /data/
-              name: volume-po-redis
+              name: pvc-redis
               readOnly: false
           workingDir: /data/      
     volumenClaimsTemplate:
