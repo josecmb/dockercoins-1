@@ -3,7 +3,7 @@ kind: Secret
 metadata:
   name: secret-rng
 stringData:
-  rng.py: |
+  rng.rb: |
     from flask import Flask, Response
     import os
     import socket
