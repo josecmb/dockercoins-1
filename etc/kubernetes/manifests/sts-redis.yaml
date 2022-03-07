@@ -36,7 +36,14 @@ spec:
           workingDir: /data/      
     volumenClaimsTemplate:
       - metadata:
+          name: pvc-redis
         spec:
+          accessMode:
+            - ReadWriteOnce
+           resources:
+            requests:
+              storage: 1Gi
+            volumenMode: Filesystem
       
     
   
