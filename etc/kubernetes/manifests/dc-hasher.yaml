@@ -5,11 +5,11 @@ metadata:
 spec: 
   replicas: 1
   selector: 
-    etiqueta: loquesea
+    dockercoins: hasher
   template:
     metadata:
       labels: 
-        etiqueta: loquesea
+        dockercoins: hasher
     spec:
       containers:
         -
