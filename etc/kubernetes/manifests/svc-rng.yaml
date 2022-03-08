@@ -4,7 +4,7 @@ metadata:
   name: rng
 spec:
   ports: 
-    - port: 80802
+    - port: 8082
       protocol: TCP
       targetPort: 8082
   selector: 
