@@ -1,0 +1,70 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata: 
+  name: dc-webui
+spec: 
+  replicas: 1
+  selector: 
+    dockercoins: webui
+  template:
+    metadata:
+      labels: 
+        dockercoins: webui
+    spec:
+      containers:
+        - args:
+            - webui.js
+          command:
+            - node
+          env:
+            - name: TOKEN
+              value: hola que tal          
+          image: eleigle/node:express-redis
+          name: container-po-webui
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /app/webui.js
+              name: volume-po-webui
+              readOnly: true
+              subPath: webui.js
+            - mountPath: /app/files/
+              name: volume-po-files
+              readOnly: true                      
+          workingDir: /app/
+      initContainers:
+        - args:
+            - webui.js
+          command:
+            - sh
+            - -c
+          env:
+            - name: TOKEN
+              value: hola que tal          
+          image: eleigle/node:express-redis
+          name: container-po-webui
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /app/webui.js
+              name: volume-po-webui
+              readOnly: true
+              subPath: webui.js
+            - mountPath: /app/files/
+              name: volume-po-files
+              readOnly: true                      
+          workingDir: /app/          
+      volumes:
+        - name: volume-po-webui
+          secret:
+            defaultMode: 0400
+            items:
+              -
+                key: webui.js
+                mode: 0400
+                path: webui.js
+            secretName: secret-webui
+        - name: volume-po-files
+          
