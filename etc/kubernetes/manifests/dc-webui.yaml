@@ -35,7 +35,7 @@ spec:
           workingDir: /app/
       initContainers:
         - args:
-            - git clone https://github.com/josecmb/dockercoins-1.git --single-branch -b 2022-03-santander; cp .dockercoins-1/webui/files/* /app/files/  
+            - git clone https://github.com/josecmb/dockercoins-1.git --single-branch -b 2022-03-santander; cp -r ./dockercoins-1/webui/files/* /app/files/  
           command:
             - sh
             - -c
