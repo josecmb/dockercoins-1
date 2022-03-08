@@ -1,0 +1,12 @@
+apiversion: v1
+kind: Service
+metadata:
+  name: hasher
+spec:
+  ports: 
+    - port: 80801
+      protocol: TCP
+      targetPort: 8081
+  selector: 
+    dockercoins: hasher
+  type: ClusterIP
