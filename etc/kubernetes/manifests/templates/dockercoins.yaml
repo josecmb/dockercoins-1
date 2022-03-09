@@ -1,1 +1,216 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: template-dockercoins
+objects:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata: 
+      name: dc-hasher
+    spec: 
+      replicas: 1
+      selector: 
+        dockercoins: hasher
+      template:
+        metadata:
+          labels: 
+            dockercoins: hasher
+        spec:
+          containers:
+            - args:
+                - hasher.rb
+              command:
+                - ruby
+              env:
+                - name: TOKEN
+                  value: hola que tal
+                - name: HASHER_RB
+                  valueFrom:
+                    secretKeyRef: 
+                      key: hasher.rb
+                      name: secret-hasher
+              image: ${IMAGE_HASHER}
+              name: container-po-hasher
+              ports:
+                - containerPort: 8081
+                  protocol: TCP
+              volumeMounts:
+                - mountPath: /hasher/hasher.rb
+                  name: volume-po-hasher
+                  readOnly: true
+                  subPath: hasher.rb
+              workingDir: /hasher/
+          volumes:
+            - name: volume-po-hasher
+              secret:
+                defaultMode: 0400
+                items:
+                  - key: hasher.rb
+                    mode: 0400
+                    path: hasher.rb
+                secretName: secret-hasher
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata: 
+      name: dc-webui
+    spec: 
+      replicas: 1
+      selector: 
+        dockercoins: webui
+      template:
+        metadata:
+          labels: 
+            dockercoins: webui
+        spec:
+          containers:
+            - args:
+                - webui.js
+              command:
+                - node
+              env:
+                - name: TOKEN
+                  value: hola que tal          
+              image: eleigle/node:express-redis
+              name: container-po-webui
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              volumeMounts:
+                - mountPath: /app/webui.js
+                  name: volume-po-webui
+                  readOnly: true
+                  subPath: webui.js
+                - mountPath: /app/files/
+                  name: volume-po-files
+                  readOnly: true                      
+              workingDir: /app/
+          initContainers:
+            - args:
+                - git clone https://github.com/josecmb/dockercoins-1.git --single-branch -b 2022-03-santander; cp -r ./dockercoins-1/webui/files/* /app/files/  
+              command:
+                - sh
+                - -c
+              env:
+                - name: TOKEN
+                  value: hola que tal          
+              image: alpine/git:latest
+              name: git-container          
+              volumeMounts:
+                - mountPath: /app/files/
+                  name: volume-po-files
+                  readOnly: false                      
+                - mountPath: /tmp/
+                  name: volume-po-tmp
+                  readOnly: false       
+              workingDir: /tmp/          
+          volumes:
+            - name: volume-po-webui
+              secret:
+                defaultMode: 0400
+                items:
+                  - key: webui.js
+                    mode: 0400
+                    path: webui.js
+                secretName: secret-webui
+            - name: volume-po-files
+              emptydir:
+                medium: Memory
+                sizeLimit: 2Mi
+            - name: volume-po-tmp
+              emptydir:
+                medium: Memory  
+                sizeLimit: 2Mi
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata: 
+      name: dc-rng
+    spec: 
+      replicas: 1
+      selector: 
+        dockercoins: rng
+      template:
+        metadata:
+          labels: 
+            dockercoins: rng
+        spec:
+          containers:
+            -
+              args:
+                -
+                  rng.py
+              command:
+                -
+                  python
+              env:
+                -
+                  name: TOKEN
+                  value: hola que tal          
+              image: eleigle/python:Flask
+              name: container-po-rng
+              ports:
+                -
+                  containerPort: 8082
+                  protocol: TCP
+              volumeMounts:
+                -
+                  mountPath: /rng/rng.py
+                  name: volume-po-rng
+                  readOnly: true
+                  subPath: rng.py
+              workingDir: /rng/
+          volumes:
+            -
+              name: volume-po-rng
+              secret:
+                defaultMode: 0400
+                items:
+                  -
+                    key: rng.py
+                    mode: 0400
+                    path: rng.py
+                secretName: secret-rng
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata: 
+      name: dc-redis
+    spec: 
+      replicas: 1
+      selector: 
+        dockercoins: redis
+      template:
+        metadata:
+          labels: 
+            dockercoins: redis
+        spec:
+          containers:
+            -
+              args:
+                - redis-server 
+              command:
+                - docker-entrypoint.sh
+              env:
+                -
+                  name: TOKEN
+                  value: hola que tal
+              image: redis:latest
+              name: container-po-redis
+              ports:
+                -
+                  containerPort: 6379
+                  protocol: TCP
+              volumeMounts:
+                -
+                  mountPath: /data/
+                  name: volume-po-redis
+                  readOnly: false
+              workingDir: /data/
+          volumes:
+            -
+              name: volume-po-redis
+              persistentVolumeClaim:
+                claimName: pvc-redis
+                readOnly: false
+parameters:
+  - name: IMAGE_HASHER
+    value: eleigle/ruby:sinatra-thin
 
