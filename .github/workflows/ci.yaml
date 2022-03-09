@@ -7,7 +7,7 @@ jobs:
       - name: build-context
         run: mkdir build/
       - name: build-hasher
-        run: docker build -f hasher/Dockerfile -t jik1000/ruby:sinatra-thin build/
+        run: docker build -f hasher/Dockerfile -t jik1000/ruby:sinatra-thin hasher/
       - name: build-rng
         run: docker build -f rng/Dockerfile -t jik1000/python:Flask build/
       - name: build-worker
