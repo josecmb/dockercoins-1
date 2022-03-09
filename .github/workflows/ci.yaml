@@ -1,0 +1,21 @@
+jobs: 
+  test: 
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout
+        uses: action/checkout@v2
+      - name: build-context
+        run: mkdir build/
+      - name: build-hasher
+        run: docker build -f hasher/Dockerfile -t jik1000/ruby:sinatra-thin build/
+      - name: build-rng
+        run: docker build -f rng/Dockerfile -t jik1000/python:Flask build/
+      - name: build-worker
+        run: docker build -f worker/Dockerfile -t jik1000/python:REdis-request build/
+      - name: build-webui
+        run: docker build -f webui/Dockerfile -t jik1000/node:express-redis build/        
+name: CI
+on:   #cuando hay que lanzar el pipeline/se activa el trigger
+  push: 
+    branches: 
+      - 2022-03-santander
