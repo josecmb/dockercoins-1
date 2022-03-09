@@ -13,7 +13,7 @@ jobs:
       - name: build-worker
         run: docker build -f worker/Dockerfile -t jik1000/python:REdis-request build/
       - name: build-webui
-        run: docker build -f webui/Dockerfile -t jik1000/node:express-redis build/        
+        run: docker build -f webui/Dockerfile -t jik1000/node:express-redis webui/        
 name: CI
 on:   #cuando hay que lanzar el pipeline/se activa el trigger
   push: 
