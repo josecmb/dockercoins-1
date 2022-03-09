@@ -13,7 +13,29 @@ jobs:
       - name: build-worker
         run: docker build -f worker/Dockerfile -t jik1000/python:REdis-request build/
       - name: build-webui
-        run: docker build -f webui/Dockerfile -t jik1000/node:express-redis webui/        
+        run: docker build -f webui/Dockerfile -t jik1000/node:express-redis webui/
+      - name: kubernetes-install
+        run: |
+          git clone --single-branch -b v2.4 https://github.com/academiaonline-org/kubernetes
+          source kubernetes/bin/cluster/ubuntu18/install-docker-kubelet.sh
+          source kubernetes/bin/cluster/ubuntu18/install-leader.sh
+          master=$( kubectl get node | grep master | awk '{ print $1 }' )
+          kubectl taint node $master node-role.kubernetes.io/master:NoSchedule-
+          rm -rf kubernetes/
+      - name: deploy
+        run: kubectl apply -f etc/kubernetes/manifests/
+      - name: test-worker
+        run: |
+          while true
+          do sleep 10
+          kubectl logs dc/dc-worker 2>& 1 | grep Coin.found && break
+          done
+      - name: test-webui
+        run: |
+          while true
+          do sleep 10
+          kubectl logs svc/swebui 2>& 1 | grep WEBUI.running && break
+          done      
 name: CI
 on:   #cuando hay que lanzar el pipeline/se activa el trigger
   push: 
